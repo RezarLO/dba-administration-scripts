@@ -31,3 +31,20 @@ PORT=8008
 LEADER_FILE="/var/lib/pgsql/scripts/patroni_leader.txt"
 STATUS_FILE="/var/lib/pgsql/scripts/patroni_leader_status.txt"
 LOG_FILE="/var/lib/pgsql/scripts/patroni_leader_changes.log"
+```
+
+## 📊 Output
+Logs are stored in:
+patroni_leader_changes.log → Leader/status changes and replica lag warnings.
+
+Alerts are sent via SMS scripts:
+  - message_leader.txt (leader changes)
+  - message_status.txt (status changes)
+  - message.txt (replica lag warnings)
+
+## 🛠 Requirements
+  - Bash (tested on RHEL8)
+  - curl
+  - jq (for JSON parsing)
+  - Perl (for SMS scripts)
+
