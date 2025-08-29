@@ -1,5 +1,33 @@
 # DBA Administration Scripts
 
+<div align="center">
+  
+<!-- Badges -->
+<p>
+  <a href="https://github.com/RezarLO/dba-administration-scripts/graphs/contributors">
+    <img src="https://img.shields.io/github/contributors/RezarLO/dba-administration-scripts" alt="contributors" />
+  </a>
+  <a href="">
+    <img src="https://img.shields.io/github/last-commit/RezarLO/dba-administration-scripts" alt="last update" />
+  </a>
+  <a href="https://github.com/RezarLO/dba-administration-scripts/network/members">
+    <img src="https://img.shields.io/github/forks/RezarLO/dba-administration-scripts" alt="forks" />
+  </a>
+  <a href="https://github.com/RezarLO/dba-administration-scripts/stargazers">
+    <img src="https://img.shields.io/github/stars/RezarLO/dba-administration-scripts" alt="stars" />
+  </a>
+  <a href="https://github.com/RezarLO/dba-administration-scripts/issues/">
+    <img src="https://img.shields.io/github/issues/RezarLO/dba-administration-scripts" alt="open issues" />
+  </a>
+  <a href="https://github.com/RezarLO/dba-administration-scripts/blob/master/LICENSE">
+    <img src="https://img.shields.io/github/license/Louis3797/awesome-readme-template.svg" alt="license" />
+  </a>
+</p>
+   
+</div>
+
+<br />
+
 A collection of automation and monitoring scripts for database administrators (DBAs).  
 These scripts are designed to simplify daily operational tasks, enhance reliability, and provide proactive alerts for database clusters.
 
