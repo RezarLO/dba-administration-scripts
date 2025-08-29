@@ -20,7 +20,7 @@
     <img src="https://img.shields.io/github/issues/RezarLO/dba-administration-scripts" alt="open issues" />
   </a>
   <a href="https://github.com/RezarLO/dba-administration-scripts/blob/master/LICENSE">
-    <img src="https://img.shields.io/github/license/Louis3797/dba-administration-scripts.svg" alt="license" />
+    <img src="https://img.shields.io/github/license/RezarLO/dba-administration-scripts.svg" alt="license" />
   </a>
 </p>
    
