@@ -76,11 +76,11 @@ These scripts are designed to simplify daily operational tasks, enhance reliabil
 
 
 <!-- ClickHouse -->
-### :triangular: ClickHouse
+### :fire: ClickHouse
 
 
 <!-- Patroni -->
-### :tail: Patroni
+### :warning: Patroni
 
 
 
