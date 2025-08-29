@@ -82,11 +82,7 @@ These scripts are designed to simplify daily operational tasks, enhance reliabil
 <!-- Patroni -->
 ### :warning: Patroni
 
-
-
-## 🚀 Current Scripts
-
-### 1. Patroni Leader & Replication Monitor (`patroni_leader_monitor.sh`)
+#### 1. Patroni Leader & Replication Monitor (`patroni_leader_monitor.sh`)
 This Bash script monitors a Patroni PostgreSQL cluster for:
 - **Leader changes** (detects and logs when a new leader is elected).
 - **Leader status changes** (e.g., `running` → `stopped`).
