@@ -43,8 +43,6 @@ These scripts are designed to simplify daily operational tasks, enhance reliabil
   * [Running Tests](#test_tube-running-tests)
   * [Run Locally](#running-run-locally)
   * [Deployment](#triangular_flag_on_post-deployment)
-- [Usage](#eyes-usage)
-- [Roadmap](#compass-roadmap)
 - [Contributing](#wave-contributing)
   * [Code of Conduct](#scroll-code-of-conduct)
 - [FAQ](#grey_question-faq)
