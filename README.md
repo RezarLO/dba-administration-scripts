@@ -33,6 +33,33 @@ These scripts are designed to simplify daily operational tasks, enhance reliabil
 
 ---
 
+<!-- Table of Contents -->
+# :notebook_with_decorative_cover: Table of Contents
+
+- [About the Project](#star2-about-the-project)
+- [Getting Started](#toolbox-getting-started)
+  * [Prerequisites](#bangbang-prerequisites)
+  * [Installation](#gear-installation)
+  * [Running Tests](#test_tube-running-tests)
+  * [Run Locally](#running-run-locally)
+  * [Deployment](#triangular_flag_on_post-deployment)
+- [Usage](#eyes-usage)
+- [Roadmap](#compass-roadmap)
+- [Contributing](#wave-contributing)
+  * [Code of Conduct](#scroll-code-of-conduct)
+- [FAQ](#grey_question-faq)
+- [License](#warning-license)
+- [Contact](#handshake-contact)
+- [Acknowledgements](#gem-acknowledgements)
+
+
+
+<!-- About the Project -->
+## :star2: About the Project
+A collection of automation and monitoring scripts for database administrators (DBAs).  
+These scripts are designed to simplify daily operational tasks, enhance reliability, and provide proactive alerts for database clusters.
+
+
 ## 🚀 Current Scripts
 
 ### 1. Patroni Leader & Replication Monitor (`patroni_leader_monitor.sh`)
