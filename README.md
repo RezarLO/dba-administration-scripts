@@ -62,6 +62,9 @@ These scripts are designed to simplify daily operational tasks, enhance reliabil
 <!-- Oracle -->
 ### :bangbang: Oracle
 
+<pre>
+<a href='https://github.com/jkstill/oracle-script-lib/blob/master/sql/rman-bkup-status.sql'>DBMS_REDACT_AUTOMATION.sql</a> - Status of backups
+</pre>
 
 <!-- Postgresql -->
 ### :gear: Postgresql

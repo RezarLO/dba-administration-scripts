@@ -1,14 +1,17 @@
+
+-- Created Definiation table containing affected tables/columns/policy 
+
 CREATE TABLE USED_TABLES (
     OWNER        VARCHAR2(128) NOT NULL,
     TABLE_NAME   VARCHAR2(128) NOT NULL,
     COLUMN_NAME  VARCHAR2(128) NOT NULL,
-    REDACT_TYPE  VARCHAR2(30)  NOT NULL, -- e.g. 'NUMBER' or 'VARCHAR'
+    REDACT_TYPE  VARCHAR2(30)  NOT NULL, -- e.g. 'NUMBER' or 'VARCHAR' or 'DATE'
     STATUS_MSG   VARCHAR2(4000)          -- audit column (success/error details)
 );
 
 
 
-
+-- this is where the magic happens :
 DECLARE
     CURSOR c_tables IS
         SELECT ROWID rid,
@@ -57,7 +60,7 @@ BEGIN
                      'regexp_pattern => SYS.DBMS_REDACT.RE_PATTERN_ANY_DIGIT,' ||
                      'regexp_replace_string => SYS.DBMS_REDACT.RE_REDACT_WITH_SINGLE_X); END;';
 
-        ELSIF r.REDACT_TYPE = 'CHAR' THEN
+        ELSIF r.REDACT_TYPE = 'VARCHAR' THEN
             v_sql := 'BEGIN SYS.DBMS_REDACT.ALTER_POLICY(' ||
                      'object_schema => ''' || r.OWNER || ''',' ||
                      'object_name   => ''' || r.TABLE_NAME || ''',' ||
