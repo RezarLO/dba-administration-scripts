@@ -112,9 +112,8 @@ Distributed under the no License. See LICENSE.txt for more information.
 <!-- Contact -->
 ## :handshake: Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
+Alhasan Ahmad Ali - [@7asanspt2ali](https://x.com/7asanspt2ali) - hasanspt2@gmail.com - https://www.linkedin.com/in/al-hasan-ali/
 
-Project Link: [https://github.com/Louis3797/awesome-readme-template](https://github.com/Louis3797/awesome-readme-template)
 
 
 <!-- Acknowledgments -->
