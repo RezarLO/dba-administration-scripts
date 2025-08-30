@@ -1,0 +1,29 @@
+⚙️ Configuration
+
+Update the following variables in the script:
+
+
+# Patroni cluster nodes
+NODES=("10.253.23.23" "10.253.23.24" "10.253.23.25")
+PORT=8008
+
+# File paths
+LEADER_FILE="/var/lib/pgsql/scripts/patroni_leader.txt"
+STATUS_FILE="/var/lib/pgsql/scripts/patroni_leader_status.txt"
+LOG_FILE="/var/lib/pgsql/scripts/patroni_leader_changes.log"
+
+
+📊 Output
+Logs are stored in:
+patroni_leader_changes.log → Leader/status changes and replica lag warnings.
+
+Alerts are sent via SMS scripts:
+  - message_leader.txt (leader changes)
+  - message_status.txt (status changes)
+  - message.txt (replica lag warnings)
+
+🛠 Requirements
+  - Bash (tested on RHEL8)
+  - curl
+  - jq (for JSON parsing)
+  - Perl (for SMS scripts)

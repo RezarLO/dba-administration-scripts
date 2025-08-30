@@ -63,7 +63,7 @@ These scripts are designed to simplify daily operational tasks, enhance reliabil
 ### :bangbang: Oracle
 
 <pre>
-<a href='https://github.com/jkstill/oracle-script-lib/blob/master/sql/rman-bkup-status.sql'>DBMS_REDACT_AUTOMATION.sql</a> - Status of backups
+<a href='https://github.com/RezarLO/dba-administration-scripts/blob/main/Oracle/DBMS_REDACT_AUTOMATION.sql'>DBMS_REDACT_AUTOMATION.sql</a> - DBMS_REDACT AUTOMATION
 </pre>
 
 <!-- Postgresql -->
@@ -85,44 +85,9 @@ These scripts are designed to simplify daily operational tasks, enhance reliabil
 <!-- Patroni -->
 ### :warning: Patroni
 
-#### 1. Patroni Leader & Replication Monitor (`patroni_leader_monitor.sh`)
-This Bash script monitors a Patroni PostgreSQL cluster for:
-- **Leader changes** (detects and logs when a new leader is elected).
-- **Leader status changes** (e.g., `running` → `stopped`).
-- **Replica replication lag** (alerts if replicas fall behind the leader).
-- **Automated alerts** (via `sendSMS.pl` or `sendSMSLEADER.pl`).
+<pre>
+<a href='https://github.com/RezarLO/dba-administration-scripts/blob/main/Patroni/patroni_leader_monitor.sh'>patroni_leader_monitor.sh</a> - Patroni Leader Monitor
+</pre>
 
-It maintains log files and text messages for integration with external notification systems.
 
----
-
-## ⚙️ Configuration
-
-Update the following variables in the script:
-
-```bash
-# Patroni cluster nodes
-NODES=("10.253.23.23" "10.253.23.24" "10.253.23.25")
-PORT=8008
-
-# File paths
-LEADER_FILE="/var/lib/pgsql/scripts/patroni_leader.txt"
-STATUS_FILE="/var/lib/pgsql/scripts/patroni_leader_status.txt"
-LOG_FILE="/var/lib/pgsql/scripts/patroni_leader_changes.log"
-```
-
-## 📊 Output
-Logs are stored in:
-patroni_leader_changes.log → Leader/status changes and replica lag warnings.
-
-Alerts are sent via SMS scripts:
-  - message_leader.txt (leader changes)
-  - message_status.txt (status changes)
-  - message.txt (replica lag warnings)
-
-## 🛠 Requirements
-  - Bash (tested on RHEL8)
-  - curl
-  - jq (for JSON parsing)
-  - Perl (for SMS scripts)
 
