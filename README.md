@@ -106,7 +106,7 @@ These scripts are designed to simplify daily operational tasks, enhance reliabil
 <!-- License -->
 ## :warning: License
 
-Distributed under the no License. See LICENSE.txt for more information.
+Distributed under the no License. See [LICENSE.txt](https://github.com/RezarLO/dba-administration-scripts/blob/main/LICENSE) for more information.
 
 
 <!-- Contact -->
@@ -120,6 +120,7 @@ Alhasan Ahmad Ali - [@7asanspt2ali](https://x.com/7asanspt2ali) - hasanspt2@gmai
 ## :gem: Acknowledgements
 
 Use this section to mention useful resources and libraries that you have used in your projects.
+
 
 
 
