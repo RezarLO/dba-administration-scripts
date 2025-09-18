@@ -1,0 +1,18 @@
+---
+- name: Setup MariaDB Master
+  hosts: master
+  become: yes
+  roles:
+    - mariadb_master
+
+- name: Setup MariaDB Slaves
+  hosts: slaves
+  become: yes
+  roles:
+    - mariadb_slave
+
+- name: Setup MaxScale
+  hosts: maxscale
+  become: yes
+  roles:
+    - maxscale

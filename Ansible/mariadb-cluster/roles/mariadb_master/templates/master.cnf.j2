@@ -1,0 +1,8 @@
+[mysqld]
+server-id=1
+log_bin=mysql-bin
+binlog_format=ROW
+
+gtid_strict_mode=ON      # keep this ON
+# enforce_gtid_consistency=ON  <-- leave this OFF
+gtid_domain_id=1

@@ -1,0 +1,10 @@
+[mysqld]
+server-id = {{ ansible_host.split('.')[-1] | int + 100 }}
+log_bin = mysql-bin
+relay_log = relay-bin
+#read_only=ON
+
+gtid_strict_mode=ON      # keep this ON
+# enforce_gtid_consistency=ON  <-- leave this OFF
+gtid_domain_id= {{ gtid_domain_id }}
+log_slave_updates=1

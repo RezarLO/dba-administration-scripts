@@ -1,0 +1,41 @@
+- name: Set root password and ensure root has proper privileges
+  community.mysql.mysql_user:
+    name: root
+    host: localhost
+    password: "{{ mariadb_root_password }}"
+    check_implicit_admin: true
+    login_unix_socket: /var/lib/mysql/mysql.sock
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+    state: present
+    column_case_sensitive: false
+  become: true
+
+- name: Remove anonymous users
+  community.mysql.mysql_user:
+    name: ''
+    host_all: true
+    state: absent
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+    column_case_sensitive: false
+
+- name: Disallow remote root login
+  community.mysql.mysql_user:
+    name: root
+    host: "{{ item }}"
+    state: absent
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+    column_case_sensitive: false
+  loop:
+    - "{{ ansible_fqdn }}"       #fact gathered by ansible fully qualified domain name
+    - "{{ ansible_hostname }}"   #fact gathered by ansible short hostname
+    - "%"
+
+- name: Remove test database
+  community.mysql.mysql_db:
+    name: test
+    state: absent
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"

@@ -1,0 +1,29 @@
+---
+- name: Download MariaDB repo setup script
+  ansible.builtin.get_url:
+    url: https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
+    dest: /tmp/mariadb_repo_setup
+    mode: '0755'
+
+- name: Run MariaDB repo setup script
+  ansible.builtin.command: /tmp/mariadb_repo_setup
+  args:
+    chdir: /tmp
+
+
+- name: Install MaxScale
+  ansible.builtin.yum:
+    name: maxscale
+    state: present
+
+- name: Configure MaxScale
+  ansible.builtin.template:
+    src: maxscale.cnf.j2
+    dest: /etc/maxscale.cnf
+  notify: Restart MaxScale
+
+- name: Start and enable MaxScale
+  ansible.builtin.service:
+    name: maxscale
+    state: started
+    enabled: yes

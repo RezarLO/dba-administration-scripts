@@ -1,0 +1,50 @@
+mariadb-cluster/
+├── inventory.ini
+├── site.yml
+├── test.yml               # NEW: playbook for testing
+└── roles/
+    ├── mariadb_master/
+    ├── mariadb_slave/
+    ├── maxscale/
+    └── mariadb_test/
+
+
+
+Al-Hasan Ali, [9/11/2025 12:22 PM]
+Run the Deployment
+
+Al-Hasan Ali, [9/11/2025 12:23 PM]
+cd mariadb-cluster
+ansible-playbook -i inventory.ini site.yml
+
+Al-Hasan Ali, [9/11/2025 12:23 PM]
+Test Failover
+
+On MaxScale node:
+
+Al-Hasan Ali, [9/11/2025 12:23 PM]
+maxctrl list servers
+
+Al-Hasan Ali, [9/11/2025 12:23 PM]
+Stop the master:
+
+Al-Hasan Ali, [9/11/2025 12:23 PM]
+systemctl stop mariadb
+
+Al-Hasan Ali, [9/11/2025 12:23 PM]
+Recheck with maxctrl list servers → one of the slaves should be promoted.
+
+Al-Hasan Ali, [9/11/2025 12:24 PM]
+Run the test:
+
+Al-Hasan Ali, [9/11/2025 12:24 PM]
+ansible-playbook -i inventory.ini test.yml
+
+Al-Hasan Ali, [9/11/2025 12:24 PM]
+Example Output
+
+On master: shows File: mysql-bin.000001 and Position: ####.
+
+On slaves: shows Slave_IO_Running: Yes, Slave_SQL_Running: Yes.
+
+On MaxScale: prints server list, showing master/slaves and roles.

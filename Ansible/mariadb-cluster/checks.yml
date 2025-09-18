@@ -1,0 +1,6 @@
+---
+- name: Verify MariaDB Replication and MaxScale
+  hosts: all
+  become: yes
+  roles:
+    - mariadb_test

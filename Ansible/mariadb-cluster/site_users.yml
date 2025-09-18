@@ -1,0 +1,7 @@
+---
+- name: Setup MariaDB Master
+  hosts: master
+  become: yes
+  roles:
+    - mariadb_master
+

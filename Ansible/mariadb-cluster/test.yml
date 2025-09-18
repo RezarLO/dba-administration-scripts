@@ -1,0 +1,193 @@
+---
+- name: Full MaxScale Functionality Test
+  hosts: maxscale,master
+  gather_facts: false
+  become: true
+  roles:
+    - mariadb_checks
+
+  pre_tasks:
+
+  - name: Bootstrap Python3 on MaxScale
+    raw: |
+      if ! command -v python3 >/dev/null 2>&1; then
+        if [ -f /etc/redhat-release ]; then
+          yum install -y python3 python3-pip
+        elif [ -f /etc/debian_version ]; then
+          apt-get update && apt-get install -y python3 python3-pip
+        fi
+      fi
+    become: true
+    when: "'maxscale' in group_names"
+
+  - name: Bootstrap Python3 on MASTER
+    raw: |
+      if ! command -v python3 >/dev/null 2>&1; then
+        if [ -f /etc/redhat-release ]; then
+          yum install -y python3 python3-pip
+        elif [ -f /etc/debian_version ]; then
+          apt-get update && apt-get install -y python3 python3-pip
+        fi
+      fi
+    become: true
+    when: "'master' in group_names"
+
+
+  - name: Ensure Python 3 is installed on MaxScale
+    ansible.builtin.package:
+      name: python3
+      state: present
+    become: true
+    when: "'maxscale' in group_names"
+
+  - name: Ensure pip3 is installed on MaxScale
+    ansible.builtin.package:
+      name: python3-pip
+      state: present
+    become: true
+    when: "'maxscale' in group_names"
+
+  - name: Install PyMySQL for Ansible MySQL modules on MaxScale
+    ansible.builtin.pip:
+      name: PyMySQL
+      executable: pip3
+    become: true
+    when: "'maxscale' in group_names"
+
+  - name: Set Python interpreter for MaxScale hosts
+    set_fact:
+      ansible_python_interpreter: /usr/bin/python3
+    when: "'maxscale' in group_names"
+
+
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+    test_db: testdb
+    test_table: test_table
+    failover_test: true  # set to false to skip failover/switchover
+
+  tasks:
+
+    - name: Create test database
+      community.mysql.mysql_query:
+        login_user: maxscaleuser
+        login_password: maxscalepassword
+        login_host: "{{ ansible_host }}"
+        login_port: 4006
+        query: "CREATE DATABASE IF NOT EXISTS {{ test_db }};"
+      when: "'maxscale' in group_names"
+
+    - name: Create test table
+      community.mysql.mysql_query:
+        login_user: maxscaleuser
+        login_password: maxscalepassword
+        login_host: "{{ ansible_host }}"
+        login_port: 4006
+        login_db: "{{ test_db }}"      # <-- use login_db instead of USE
+        query: |
+          CREATE TABLE IF NOT EXISTS {{ test_table }} (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          data VARCHAR(100)
+          );
+      when: "'maxscale' in group_names"
+
+    ###############
+    # READ/WRITE SPLIT TEST
+    ###############
+    - name: Write a row and get master server_id
+      ansible.builtin.shell: |
+        mysql -h 192.168.186.120 -P4006 -umaxscaleuser -pmaxscalepassword -D {{ test_db }} -e \
+        "INSERT INTO {{ test_table }} (data) VALUES ('write_test'); SELECT @@server_id;"
+      register: write_result
+      when: "'maxscale' in group_names"
+
+    - name: Show server_id of write
+      debug:
+        msg: "Write executed on server_id: {{ write_result.stdout_lines[-1] }}"
+      when: "'maxscale' in group_names"
+
+    - name: Read rows and get slave server_id
+      ansible.builtin.shell: |
+        mysql -h 192.168.186.120 -P4007 -umaxscaleuser -pmaxscalepassword -D {{ test_db }} -e \
+        "SELECT * FROM {{ test_table }}; SELECT @@server_id;"
+      register: read_result
+      when: "'maxscale' in group_names"
+
+    - name: Show server_id of read
+      debug:
+        msg: "Read executed on server_id: {{ read_result.stdout_lines[-1] }}"
+      when: "'maxscale' in group_names"
+
+    ###############
+    # FAILOVER TEST
+    ###############
+    - name: Stop master to trigger failover
+      when: failover_test
+      ansible.builtin.shell: systemctl stop mariadb
+      delegate_to: "{{ groups['master'][0] }}"
+      become: true
+
+    - name: Wait for MaxScale to detect failover
+      when: failover_test
+      pause:
+        seconds: 15
+
+    - name: Show MaxScale server status after failover
+      ansible.builtin.command: maxctrl list servers
+      register: maxscale_status
+      changed_when: false
+      when:
+           - "'maxscale' in group_names"
+           - failover_test
+
+    - name: Print MaxScale status after failover
+      when: failover_test
+      debug:
+        var: maxscale_status.stdout_lines
+
+
+    - name: "Trigger failover in MaxScale monitor"
+      ansible.builtin.shell: |
+        maxctrl call command mariadbmon failover Replication-Monitor
+      delegate_to: "{{ groups['maxscale'][0] }}"
+      become: true
+      when: failover_test
+
+    - name: "Check new master after failover"
+      ansible.builtin.shell: |
+        maxctrl list servers | awk '/Master/ {print $1}'
+      register: new_master
+      delegate_to: "{{ groups['maxscale'][0] }}"
+      become: true
+      when: failover_test
+
+    - name: "Show the new promoted master"
+      ansible.builtin.debug:
+        msg: "New master promoted by MaxScale: {{ new_master.stdout }}"
+      when: failover_test
+
+
+    - name: Start master to again after failover
+      when: failover_test
+      ansible.builtin.shell: systemctl start mariadb
+      delegate_to: "{{ groups['master'][0] }}"
+      become: true
+
+    - name: Wait for MaxScale to detect switchover
+      when: failover_test
+      pause:
+        seconds: 15
+
+    - name: Show MaxScale server status after switchover
+      ansible.builtin.command: maxctrl list servers
+      register: maxscale_status_sw
+      changed_when: false
+      when:
+           - "'maxscale' in group_names"
+           - failover_test
+
+    - name: Print MaxScale status after switchover
+      when: failover_test
+      debug:
+        var: maxscale_status_sw.stdout_lines
+

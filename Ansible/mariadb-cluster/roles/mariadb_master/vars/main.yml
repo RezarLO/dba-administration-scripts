@@ -1,0 +1,4 @@
+mariadb_root_password: "StrongRootPass123!"
+mariadb_repl_user: "repl"
+mariadb_repl_password: "replpass"
+mariadb_bind_address: "0.0.0.0"   # optional, if you need replication from other hosts

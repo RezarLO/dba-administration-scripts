@@ -1,0 +1,48 @@
+---
+- name: Print MariaDB service state
+  ansible.builtin.command: systemctl is-active mariadb
+  register: mariadb_status
+  changed_when: false
+  when: "'master' in group_names or 'slaves' in group_names"
+
+- name: Show MariaDB service status
+  debug:
+    msg: "MariaDB on {{ inventory_hostname }} is {{ mariadb_status.stdout }}"
+  when: "'master' in group_names or 'slaves' in group_names"
+
+- name: Check if node is master
+  when: "'master' in group_names"
+  community.mysql.mysql_query:
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+    query: "SHOW MASTER STATUS;"
+  register: master_status
+
+- name: Show master log file/position
+  when: "'master' in group_names"
+  debug:
+    var: master_status.query_result
+
+- name: Check if node is slave
+  when: "'slaves' in group_names"
+  community.mysql.mysql_query:
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+    query: 'SHOW SLAVE STATUS'
+  register: slave_status
+
+- name: Show slave replication info
+  when: "'slaves' in group_names"
+  debug:
+    var: slave_status.query_result
+
+- name: Check MaxScale servers status
+  when: "'maxscale' in group_names"
+  ansible.builtin.command: maxctrl list servers
+  register: maxscale_status
+  changed_when: false
+
+- name: Print MaxScale server list
+  when: "'maxscale' in group_names"
+  debug:
+    var: maxscale_status.stdout_lines

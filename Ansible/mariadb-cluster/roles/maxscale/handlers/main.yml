@@ -1,0 +1,4 @@
+  - name: Restart MaxScale
+    ansible.builtin.service:
+      name: maxscale
+      state: restarted
