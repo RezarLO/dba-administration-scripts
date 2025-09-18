@@ -44,6 +44,7 @@ These scripts are designed to simplify daily operational tasks, enhance reliabil
   * [Mariadb](#running-Mariadb)
   * [ClickHouse](#fire-ClickHouse)
   * [Patroni](#warning-Patroni)
+  * [Ansible](#warning-Ansible)
 - [Contributing](#wave-contributing)
   * [Code of Conduct](#scroll-code-of-conduct)
 - [FAQ](#grey_question-faq)
@@ -88,6 +89,16 @@ These scripts are designed to simplify daily operational tasks, enhance reliabil
 <pre>
 <a href='https://github.com/RezarLO/dba-administration-scripts/blob/main/Patroni/patroni_leader_monitor.sh'>patroni_leader_monitor.sh</a> - Patroni Leader Monitor
 </pre>
+
+
+<!-- Ansible -->
+### :warning: Ansible
+
+<pre>
+<a href='https://github.com/RezarLO/dba-administration-scripts/tree/main/Ansible/mariadb-cluster'>Mariadb Cluster with Ansible</a> - Mariadb Cluster with Ansible
+</pre>
+
+
 
 
 
